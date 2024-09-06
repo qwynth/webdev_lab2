@@ -18,7 +18,7 @@
                 <header>Enter your Name</header>
             </div>
             <div class="input-box">
-                <input type="text" class="input-field" placeholder="username" name="username" autocomplete="off">
+                <input type="text" class="input-field" placeholder="username" name="username" autocomplete="off" value="{{ request('username') }}" pattern="[a-zA-Z]+" title="Please enter only alphabetic characters.">
             </div>
             <div class="input-submit">
                 <button type="submit" class="submit-btn">Enter</button>
