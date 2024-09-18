@@ -1,16 +1,10 @@
-<!DOCTYPE html>
-<html data-bs-theme="light" lang="en">
+<!-- resources/views/username.blade.php -->
+@extends('Components.Layout') <!-- This extends your Layout.blade.php -->
+@section('title', 'Username - My Website') <!-- This sets the title section -->
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
-  <title>Username - My Website</title>
-</head>
-
-<body>
-    <form action="{{ url('/welcome') }}" method="POST">
-        @csrf 
+@section('content') <!-- This defines the content section -->   
+<form action="{{ url('/welcome') }}" method="POST">
+    @csrf 
     <div class="centered-container">
         <div class="box-container">
         <div class="username-box">
@@ -24,8 +18,7 @@
                 <button type="submit" class="submit-btn">Enter</button>
             </div>
         </div>
+    </div>
 </div>
-</div>
-    </form>
-</body>
-</html>
+</form>
+@endsection

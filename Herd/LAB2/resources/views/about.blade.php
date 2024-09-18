@@ -1,38 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
+<!-- resources/views/about.blade.php -->
+@extends('Components.Layout') <!-- This extends your Layout.blade.php -->
+@section('title', 'About-My Website') <!-- This sets the title section -->
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
-  <title>About - My Website</title>
-</head>
-
-<body>
-  <!-- Header -->
-  <section id="header">
-    <div class="header container">
-      <div class="nav-bar">
-        <div class="brand">
-          <a href="{{ url('/') }}">
-            <h1><span>WEB</span>DEV</h1>
-          </a>
-        </div>
-        <div class="nav-list">
-          <div class="hamburger">
-            <div class="bar"></div>
-          </div>
-          <ul>
-            <li><a href="{{ url('/welcome') }}">Home</a></li>
-            <li><a href="{{ url('/about') }}">About</a></li>  
-            <li><a href="{{ url('/contact') }}">Contact</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- End Header -->
-
+@section('content') <!-- This defines the content section -->
 <!-- Projects Section -->
 <section id="projects">
     <div class="projects container">
@@ -149,31 +119,94 @@
   </section>
   <!-- Service Section -->
 
-  
 
-  <!-- Footer -->
-  <section id="footer">
-    <div class="footer container">
-      <div class="brand">
-        <h1><span>WEB</span>DEV</h1>
-      </div>
-      <h2>PRECIOUS GWYNTH MALLO | BSIT 3C</h2>
-      <div class="social-icon">
-        <div class="social-item">
-          <a href="https://www.facebook.com/preciousgwynth.avilamallo"><img src="https://img.icons8.com/bubbles/100/000000/facebook-new.png" /></a>
+   <!-- comment Section -->
+  <div class="comment-container">
+        <div class="head"><h1>Let us know your feedback</h1></div>
+        <div class="text"><p>We are happy to hear from you! </p></div>
+        <div><span id="comment">0</span> Comments</div>
+          <div class="comments"></div>
+            <div class="commentbox">
+            <img src="./img/user1.png" alt="img">
+            <div class="content">
+                <h2>Comment as: </h2>
+                <input type="text" value="Anonymous" class="user">
+
+                <div class="commentinput">
+                    <input type="text" placeholder="Enter comment" class="usercomment">
+                    <div class="buttons">
+                        <button type="submit" disabled id="publish">Publish</button>
+                        <div class="notify">
+                            <input type="checkbox" class="notifyinput"> <span>Notify me</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="policy">This is the <a href="">privacy policy</a> and <a href="">Terms of Service</a> apply.</p>
+            </div>
         </div>
-        <div class="social-item">
-          <a href="https://www.instagram.com/qwayynyth/"><img src="https://img.icons8.com/bubbles/100/000000/instagram-new.png" /></a>
-        </div>
-        <div class="social-item">
-        <img src="{{ asset('img/logo.JPG') }}" alt="img">
-        </div>
-      </div>
-      <p>All rights reserved</p>
     </div>
-  </section>
-  <!-- End Footer -->
-  <script src="./app.js"></script>
-</body>
 
-</html>
+<script>
+
+const USERID = {
+    name: null,
+    identity: null,
+    image: null,
+    message: null,
+    date: null
+}
+
+const userComment = document.querySelector(".usercomment");
+const publishBtn = document.querySelector("#publish");
+const comments = document.querySelector(".comments");
+const userName = document.querySelector(".user");
+const notify = document.querySelector(".notifyinput");
+
+    userComment.addEventListener("input", e => {
+        if(!userComment.value) {
+            publishBtn.setAttribute("disabled", "disabled");
+            publishBtn.classList.remove("abled")
+        }else {
+            publishBtn.removeAttribute("disabled");
+            publishBtn.classList.add("abled")
+        }
+    })
+
+    function addPost() {
+        if(!userComment.value) return;
+        USERID.name = userName.value;
+        if(USERID.name === "Anonymous") {
+            USERID.identity = false;
+            USERID.image = "anonymous.png"
+        }else {
+            USERID.identity = true;
+            USERID.image = "./img/user.png"
+        }
+
+        USERID.message = userComment.value;
+        USERID.date = new Date().toLocaleString();
+        let published = 
+        `<div class="parents">
+            <img src="${USERID.image}">
+            <div>
+                <h1>${USERID.name}</h1>
+                <p>${USERID.message}</p>
+                <div class="engagements"><img src="./img/like.png" id="like"><img src="./img/share.png" alt="img"></div>
+                <span class="date">${USERID.date}</span>
+            </div>    
+        </div>`
+
+        comments.innerHTML += published;
+        userComment.value = "";
+        publishBtn.classList.remove("abled")
+
+        let commentsNum = document.querySelectorAll(".parents").length;
+        document.getElementById("comment").textContent = commentsNum;
+
+    }
+
+    publishBtn.addEventListener("click", addPost);
+
+</script>
+ <!-- comment Section -->
+  @endsection

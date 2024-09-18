@@ -1,39 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
+<!-- resources/views/contact.blade.php -->
+@extends('Components.Layout') <!-- This extends your Layout.blade.php -->
+@section('title', 'Contact-My Website') <!-- This sets the title section -->
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
-  <title>Contact - My Website</title>
-</head>
-
-<body>
-  <!-- Header -->
-  <section id="header">
-    <div class="header container">
-      <div class="nav-bar">
-        <div class="brand">
-          <a href="{{ url('/') }}">
-            <h1><span>WEB</span>DEV</h1>
-          </a>
-        </div>
-        <div class="nav-list">
-          <div class="hamburger">
-            <div class="bar"></div>
-          </div>
-          <ul>
-            <li><a href="{{ url('/welcome') }}">Home</a></li>
-            <li><a href="{{ url('/about') }}">About</a></li>  
-            <li><a href="{{ url('/contact') }}">Contact</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- End Header -->
-
-  <!-- Contact Section -->
+@section('content') <!-- This defines the content section -->  
+<!-- Contact Section -->
   <section id="contact">
     <div class="contact container">
       <div>
@@ -116,32 +86,4 @@
 		</div>
 	</section>
 <!-- contact-form -->
-
-
-  <!-- Footer -->
-  <section id="footer">
-    <div class="footer container">
-      <div class="brand">
-        <h1><span>WEB</span>DEV</h1>
-      </div>
-      <h2>MALLO, LLEVA, LLONA | BSIT 3C</h2>
-      <div class="social-icon">
-        <div class="social-item">
-          <a href=" "><img src="https://img.icons8.com/bubbles/100/000000/facebook-new.png" /></a>
-        </div>
-        <div class="social-item">
-          <a href=" "><img src="https://img.icons8.com/bubbles/100/000000/instagram-new.png" /></a>
-        </div>
-        <div class="social-item">
-        <img src="{{ asset('img/logo.JPG') }}" alt="img">
-        </div>
-      </div>
-      <p>All rights reserved</p>
-    </div>
-  </section>
-  <!-- End Footer -->
-
-  <script src="./app.js"></script>
-
-</body>
-</html>
+@endsection
