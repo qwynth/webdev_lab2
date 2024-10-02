@@ -1,36 +1,55 @@
 <?php
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use App\Http\Middleware\LogRequests;
+use App\Http\Middleware\CheckAge;
 
-// Group routes with 'web' middleware
-Route::middleware(['web'])->group(function () {
+
+// Group all routes with 'web' and 'LogRequest' middleware
+Route::middleware(['web', LogRequests::class])->group(function () {
+
+    // Route to store age in session
+    Route::post('/store-age', function (Request $request) {
+        $age = $request->input('age');
+        session(['age' => $age]); // Store age in session
+    });
+
     // Route to display the username input form
     Route::view('/', 'username');
 
-   // Route to handle form submission via POST
-Route::post('/welcome', function (Request $request) {
-    // Retrieve the 'username' input from the form; default to 'Guest' if not provided
-    $name = $request->input('username') ?? 'Guest';
+    // Route to handle form submission via POST
+    Route::post('/welcome', function (Request $request) {
+        $name = $request->input('username') ?? 'Guest';  // Retrieve username
+        session(['user_name' => $name]);  // Store username in session
+        return redirect('/welcome');  // Redirect to welcome page
+    });
 
-    // Store the name in the session
-    session(['user_name' => $name]);
+    // Group routes requiring CheckAge middleware
+    Route::middleware(CheckAge::class)->group(function () {
 
-    // Redirect to the welcome page
-    return redirect('/welcome');
-});
+        // Route to handle GET requests to /welcome with CheckAge middleware
+        Route::get('/welcome', function () {
+            $name = session('user_name') ?? 'Guest';  // Retrieve name from session
+            return view('welcome', compact('name'));  // Pass the name to the welcome view
+        });
 
-// Route to handle GET requests to /welcome
-Route::get('/welcome', function () {
-    $name = session('user_name') ?? 'Guest';  // Retrieve name from session or default to 'Guest'
-    return view('welcome', compact('name'));  // Pass the name to the welcome view
-});
-});
+        // Route for access denied page
+        Route::get('/access-denied', function () {
+            return view('access-denied'); // When age is not valid
+        });
 
-// Other static pages
-Route::get('/about', function () {
-    return view('about');
-});
+        // New route with CheckAge middleware enforcing age of 21 and above
+        Route::get('/restricted-area', function () {
+            return view('restricted-area'); // Your view for the restricted area
+        })->middleware(CheckAge::class.':21'); // Apply CheckAge with age parameter of 21// Apply CheckAge with age of 21 and above
+    });
 
-Route::get('/contact', function () {
-    return view('contact');
+    // Other static pages
+    Route::get('/about', function () {
+        return view('about');
+    });
+
+    Route::get('/contact', function () {
+        return view('contact');
+    });
 });

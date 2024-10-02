@@ -126,7 +126,16 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
+        
+         // Add this part for the custom log channel
+         'custom' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/log.txt'),
+            'level' => 'info',
+        ],
 
     ],
 
 ];
+
+
